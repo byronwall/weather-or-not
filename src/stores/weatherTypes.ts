@@ -20,6 +20,7 @@ export interface WeatherMetric {
 
 export interface LocationWeatherData {
   location: string;
+  isSample: boolean;
   metrics: WeatherMetric[];
   resolvedAddress: string;
   timezone: string;
