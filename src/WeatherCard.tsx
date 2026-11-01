@@ -94,6 +94,7 @@ export function WeatherCard({ date, width }: WeatherCardProps) {
               weekday: "long",
               month: "long",
               day: "numeric",
+              year: "numeric",
             })}
           </p>
         </div>

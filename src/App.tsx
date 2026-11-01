@@ -6,7 +6,7 @@ import { useWeatherStore } from "./stores/weatherStore";
 import { useChartSettings } from "./stores/chartSettingsStore";
 
 export function App() {
-  const { selectedDates, selectedLocation } = useWeatherStore();
+  const { selectedDates, selectedLocation, weatherByLocation } = useWeatherStore();
   const { settings } = useChartSettings();
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -46,6 +46,11 @@ export function App() {
     <div className="min-h-screen bg-gray-100">
       <Header />
       <main className="w-full p-0 sm:p-4 space-y-4">
+        {selectedLocation && weatherByLocation[selectedLocation]?.isSample && (
+          <p role="status" className="bg-amber-100 text-amber-950 rounded p-3 mx-auto max-w-3xl">
+            Historical sample data — these are not upcoming forecasts.
+          </p>
+        )}
         {!selectedLocation && (
           <div className="bg-white rounded shadow p-4 w-fit mx-auto">
             <LocationInput />

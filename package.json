@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "vite build --ssr src/stores/weatherStore.ts --outDir .test-build && node --test tests/*.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

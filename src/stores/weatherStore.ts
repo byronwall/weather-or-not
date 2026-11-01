@@ -45,7 +45,7 @@ interface WeatherStore extends WeatherStoreState {
   bufferHours: number;
 
   // Actions
-  setWeatherData: (location: string, data: WeatherApiResponse) => void;
+  setWeatherData: (location: string, data: WeatherApiResponse, isSample: boolean) => void;
   setSelectedLocation: (location: string) => void;
   setSelectedTimeRange: (range: TimeRange) => void;
   setBufferHours: (hours: number) => void;
@@ -89,7 +89,7 @@ export const useWeatherStore = create<WeatherStore>((set, get) => ({
 
   setBufferHours: (hours) => set({ bufferHours: hours }),
 
-  setWeatherData: (location, data) =>
+  setWeatherData: (location, data, isSample) =>
     set((state) => {
       // Convert days and hours into a flat list of metrics with timestamps
       const metrics: WeatherMetric[] = [];
@@ -108,6 +108,7 @@ export const useWeatherStore = create<WeatherStore>((set, get) => ({
 
       const locationData: LocationWeatherData = {
         location,
+        isSample,
         metrics,
         resolvedAddress: data.resolvedAddress,
         timezone: data.timezone,
@@ -146,7 +147,7 @@ export const useWeatherStore = create<WeatherStore>((set, get) => ({
       const store = get();
       // Extract ZIP code from location if it exists, otherwise use full location
       const locationKey = dataset.location;
-      store.setWeatherData(locationKey, data);
+      store.setWeatherData(locationKey, data, true);
       store.setSelectedLocation(locationKey);
 
       // If time preference and day preference are provided, select matching dates
@@ -174,7 +175,7 @@ export const useWeatherStore = create<WeatherStore>((set, get) => ({
       }
       const data = await response.json();
       const store = get();
-      store.setWeatherData(location, data);
+      store.setWeatherData(location, data, false);
       store.setSelectedLocation(location);
 
       // Select matching dates based on preferences
